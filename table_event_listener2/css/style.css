@@ -1,0 +1,53 @@
+.wrapper {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.wrapper button {
+  padding: 5px 20px;
+  margin: 0px 5px;
+  color: white;
+  background-color: dimgray;
+  border: none;
+  border-radius: 5px;
+}
+table {
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+table td {
+  border: 1px solid black;
+  padding: 5px 10px;
+}
+table .btns_td {
+  border: none;
+}
+table .btns_td .delete_user_btn {
+  background-color: rosybrown;
+}
+table .btns_td .edit_user_btn {
+  background-color: cadetblue;
+}
+table tr:first-child td {
+  font-weight: bold;
+}
+table tr:first-child td:not(:last-child) {
+  background-color: wheat;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+  background-color: wheat;
+  padding: 30px;
+  border: 1px solid black;
+}
+form .inputs_block {
+  display: flex;
+  flex-direction: column;
+}
+form .inputs_block input {
+  margin-bottom: 15px;
+  border: 1px solid black;
+}
