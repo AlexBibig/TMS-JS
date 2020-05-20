@@ -29,11 +29,13 @@ async function pastePeople(peoplePromise) {
   people.forEach((el) => {
     let tr = document.createElement('tr');
   });
+  console.log(people[0].name);
 }
 
 createTable(userAttr);
 pastePeople(getPeople());
 
 console.log(1);
+console.log(2);
 
 // gfhjk
