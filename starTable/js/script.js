@@ -26,16 +26,17 @@ function createTable(userAttr) {
 
 async function pastePeople(peoplePromise) {
   let people = await peoplePromise;
+  let table = document.querySelector('table');
+
   people.forEach((el) => {
     let tr = document.createElement('tr');
+    tr.innerHTML = `
+    <td>${el.name}</td>
+    <td>${el.height}</td>
+    <td>${el.mass}</td>`;
+    table.append(tr);
   });
-  console.log(people[0].name);
 }
 
 createTable(userAttr);
 pastePeople(getPeople());
-
-console.log(1);
-console.log(2);
-
-// gfhjk
