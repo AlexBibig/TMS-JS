@@ -1,0 +1,33 @@
+.users_block{
+  padding: 20px 40px;
+}
+.users_block table {
+  border-collapse: collapse;
+}
+.users_block table td {
+  border: 1px solid black;
+  padding: 5px 10px;
+}
+.users_block .planet_td {
+  border: none;
+  color: brown;
+  cursor: pointer;
+}
+.users_block .planet_td:hover {
+  text-decoration: underline;
+}
+.planet_modal {
+  border: 1px solid black;
+    width: 400px;
+    height: 150px;
+    position: absolute;
+    background: #fff;
+    left: 50px;
+}
+.planet_modal .close_btn {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  cursor: pointer;
+  color: red;
+}
