@@ -1,14 +1,23 @@
-.users_block{
-    padding: 20px 40px;
-  }
-  .users_block table {
-    border-collapse: collapse;
-  }
-  .users_block table td {
-    border: 1px solid black;
+body {
+  background-image: url(../img/darth_vader.png);
+  background-size: 100%;
+  background-position: center;
+}
+
+.users_block {
+  padding: 20px 40px;
+  display: flex;
+  justify-content: center;
+}
+.users_block table {
+  border-collapse: collapse;
+  td {
+    border: 3px outset grey;
     padding: 5px 10px;
+    color: red;
+    text-transform: capitalize;
   }
- 
-.planet_td {
+  .planet_td {
     border: none;
+  }
 }
