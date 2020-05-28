@@ -5,7 +5,6 @@ const defaultOptions = {
   autoplay: false,
   autoplaySpeed: 2000,
   slides: 2,
-
   dots: true,
 };
 let shift = 0;
@@ -19,9 +18,10 @@ function lightSlider(settings = {}) {
   const slidesHeight = settings.slidesHeight || defaultOptions.slidesHeight;
   const autoplaySpeed = settings.autoplaySpeed || defaultOptions.autoplaySpeed;
   const nav = settings.nav !== undefined ? settings.nav : defaultOptions.nav;
+  const dots = settings.dots !== undefined ? settings.dots : defaultOptions.dots;
   const autoplay = settings.autoplay !== undefined ? settings.autoplay : defaultOptions.autoplay;
 
-  transformHtmlSlider(this, slidesWidth, slides, nav);
+  transformHtmlSlider(this, slidesWidth, slides, nav, dots);
   setStyle(slidesWidth, slides, slidesHeight);
 
   if (autoplay) {
@@ -49,6 +49,17 @@ function addNav(slidesWidth, slides) {
 function addDot() {
   let dotBlock = document.createElement('div');
   dotBlock.className = 'dot_block';
+
+  picturesArr = Array.from(document.querySelector('.sliders_wrapper').children);
+
+  picturesArr.forEach((el) => {
+    let dot = document.createElement('a');
+    dot.className = 'dot_item';
+    dot.innerHTML = '.';
+    dotBlock.append(dot);
+  });
+
+  mainSlider.append(dotBlock);
 }
 function nextSlide(slidesWidth, slides) {
   let slidersWrapper = document.querySelector('.light_slider .sliders_wrapper');
@@ -65,7 +76,7 @@ function prevSlide(slidesWidth, slides) {
   }
   slidersWrapper.style.transform = `translateX(${shift}px)`;
 }
-function transformHtmlSlider(mainSlider, slidesWidth, slides, nav) {
+function transformHtmlSlider(mainSlider, slidesWidth, slides, nav, dots) {
   mainSlider.classList.add('light_slider');
   let slidesHtml = mainSlider.innerHTML;
 
@@ -75,6 +86,9 @@ function transformHtmlSlider(mainSlider, slidesWidth, slides, nav) {
 
   if (nav) {
     addNav(slidesWidth, slides);
+  }
+  if (dots) {
+    addDot(slides);
   }
 }
 function setStyle(slidesWidth, slides, slidesHeight) {
