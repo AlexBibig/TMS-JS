@@ -62,6 +62,7 @@ function addDot(slidesWidth, slides) {
     picturesArr[i].slideIndex = slideIndex + i;
     dotBlock.append(dots);
     dotBlock.firstChild.classList.add('dot-active');
+
     dots.addEventListener('click', function dotActive() {
       let dotsArr = Array.from(document.querySelector('.dot_block').children);
       for (let i = 0; i < dotsArr.length; i++) {
