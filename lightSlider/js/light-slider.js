@@ -57,19 +57,29 @@ function addDot(slidesWidth, slides) {
   picturesArr = Array.from(document.querySelector('.sliders_wrapper').children);
 
   for (let i = 0; i < Math.ceil(picturesArr.length / slides); i++) {
-    let dotItem = document.createElement('div');
-    dotItem.className = 'dot_item';
+    let dots = document.createElement('div');
+    dots.className = 'dot_item';
     picturesArr[i].slideIndex = slideIndex + i;
-    dotBlock.append(dotItem);
-    dotItem.addEventListener('click', function dotActive() {
+    dotBlock.append(dots);
+    dotBlock.firstChild.classList.add('dot-active');
+    dots.addEventListener('click', function dotActive() {
+      let dotsArr = Array.from(document.querySelector('.dot_block').children);
+      for (let i = 0; i < dotsArr.length; i++) {
+        dotsArr[i].classList.remove('dot-active');
+      }
+      dotsArr[i].classList.add('dot-active');
+
       let slidersWrapper = document.querySelector('.light_slider .sliders_wrapper');
-      slidersWrapper.style.transform = `translateX(-${shift + slidesWidth * picturesArr[i].slideIndex}px)`;
+      slidersWrapper.style.transform = `translateX(-${
+        shift + slidesWidth * picturesArr[i].slideIndex
+      }px)`;
     });
   }
 
   mainSlider.append(dotBlock);
 }
-/////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////
 
 function nextSlide(slidesWidth, slides) {
   let slidersWrapper = document.querySelector('.light_slider .sliders_wrapper');
