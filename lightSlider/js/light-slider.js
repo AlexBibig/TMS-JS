@@ -4,7 +4,7 @@ const defaultOptions = {
   nav: true,
   autoplay: false,
   autoplaySpeed: 2000,
-  slides: 2,
+  slides: 1,
   dots: true,
 };
 let shift = 0;
@@ -55,16 +55,15 @@ function addDot(slidesWidth, slides) {
   dotBlock.className = 'dot_block';
 
   picturesArr = Array.from(document.querySelector('.sliders_wrapper').children);
-  console.log(picturesArr);
 
-  for (let i = 0; i < picturesArr.length; i++) {
-    let dot = document.createElement('div');
-    dot.className = 'dot_item';
+  for (let i = 0; i < Math.ceil(picturesArr.length / slides); i++) {
+    let dotItem = document.createElement('div');
+    dotItem.className = 'dot_item';
     picturesArr[i].slideIndex = slideIndex + i;
-    dotBlock.append(dot);
-    dot.addEventListener('click', function dotActive() {
-      console.log(picturesArr[i].slideIndex);
-      console.log(this);
+    dotBlock.append(dotItem);
+    dotItem.addEventListener('click', function dotActive() {
+      let slidersWrapper = document.querySelector('.light_slider .sliders_wrapper');
+      slidersWrapper.style.transform = `translateX(-${shift + slidesWidth * picturesArr[i].slideIndex}px)`;
     });
   }
 
