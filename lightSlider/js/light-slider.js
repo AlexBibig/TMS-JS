@@ -8,6 +8,7 @@ const defaultOptions = {
   dots: true,
 };
 let shift = 0;
+let slideIndex = 0;
 
 let divs = document.querySelectorAll('div');
 divs.forEach((el) => (el.lightSlider = lightSlider));
@@ -46,24 +47,31 @@ function addNav(slidesWidth, slides) {
   navBlock.append(nextBtn);
   mainSlider.append(navBlock);
 }
-function addDot() {
+
+//////////////////////////////////////////////////////////
+
+function addDot(slidesWidth, slides) {
   let dotBlock = document.createElement('div');
   dotBlock.className = 'dot_block';
 
   picturesArr = Array.from(document.querySelector('.sliders_wrapper').children);
+  console.log(picturesArr);
 
-  picturesArr.forEach((el) => {
-    let dot = document.createElement('a');
+  for (let i = 0; i < picturesArr.length; i++) {
+    let dot = document.createElement('div');
     dot.className = 'dot_item';
-    dot.innerHTML = '.';
+    picturesArr[i].slideIndex = slideIndex + i;
     dotBlock.append(dot);
-    dot.addEventListener('click', dotActive);
-  });
+    dot.addEventListener('click', function dotActive() {
+      console.log(picturesArr[i].slideIndex);
+      console.log(this);
+    });
+  }
+
   mainSlider.append(dotBlock);
 }
-function dotActive() {
-  console.log(this);
-}
+/////////////////////////////////////////////////////////
+
 function nextSlide(slidesWidth, slides) {
   let slidersWrapper = document.querySelector('.light_slider .sliders_wrapper');
   let slidersWrapperWidth = slidersWrapper.offsetWidth;
@@ -91,7 +99,7 @@ function transformHtmlSlider(mainSlider, slidesWidth, slides, nav, dots) {
     addNav(slidesWidth, slides);
   }
   if (dots) {
-    addDot(slides);
+    addDot(slidesWidth, slides);
   }
 }
 function setStyle(slidesWidth, slides, slidesHeight) {
