@@ -57,9 +57,12 @@ function addDot() {
     dot.className = 'dot_item';
     dot.innerHTML = '.';
     dotBlock.append(dot);
+    dot.addEventListener('click', dotActive);
   });
-
   mainSlider.append(dotBlock);
+}
+function dotActive() {
+  console.log(this);
 }
 function nextSlide(slidesWidth, slides) {
   let slidersWrapper = document.querySelector('.light_slider .sliders_wrapper');

@@ -4,7 +4,7 @@ mainSlider.lightSlider({
   slidesWidth: 300,
   slidesHeight: 200,
   nav: true,
-  autoplay: true,
+  autoplay: false,
   autoplaySpeed: 2000,
   dots: true,
 });
