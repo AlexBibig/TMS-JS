@@ -3,117 +3,116 @@ const planetAttr = ['name', 'diameter', 'gravity', 'climate'];
 let table = document.createElement('table');
 
 function addPlanetTd(tr, text) {
-    let planetTd = document.createElement('td');
-    planetTd.classList.add('planet_td');
+  let planetTd = document.createElement('td');
+  planetTd.classList.add('planet_td');
 
-    if (text) {
-        planetTd.innerHTML = text;
-        planetTd.addEventListener('click', showPlanet);
-    }
-    
-    tr.append(planetTd);
+  if (text) {
+    planetTd.innerHTML = text;
+    planetTd.addEventListener('click', showPlanet);
+  }
+
+  tr.append(planetTd);
 }
 
 function closeModal() {
-    let modal = this.closest('.planet_modal');
-    modal.remove();
+  let modal = this.closest('.planet_modal');
+  modal.remove();
 }
 
 function showPlanetModal(planet, top) {
-    let modal = document.createElement('div');
-    modal.className = 'planet_modal';
-    modal.style.top = `${top}px`;
+  let modal = document.createElement('div');
+  modal.className = 'planet_modal';
+  modal.style.top = `${top}px`;
 
-    let table = document.createElement('table');
-    table.className = 'planet_table';
-    let trHead = document.createElement('tr');
-    trHead.className = 'tr_head';
-    let tr = document.createElement('tr');
+  let table = document.createElement('table');
+  table.className = 'planet_table';
+  let trHead = document.createElement('tr');
+  trHead.className = 'tr_head';
+  let tr = document.createElement('tr');
 
-    planetAttr.forEach((el) => {
-        let td = document.createElement('td');
-        let tdHead = document.createElement('td');
-        
-        tdHead.innerHTML = el;
-        td.innerHTML = planet[el];
+  planetAttr.forEach((el) => {
+    let td = document.createElement('td');
+    let tdHead = document.createElement('td');
 
-        trHead.append(tdHead);
-        tr.append(td);
-    });
+    tdHead.innerHTML = el;
+    td.innerHTML = planet[el];
 
-    let closeBtn = document.createElement('div');
-    closeBtn.className = 'close_btn';
-    closeBtn.innerHTML = `<span>X</span>`;
+    trHead.append(tdHead);
+    tr.append(td);
+  });
 
-    closeBtn.addEventListener('click', closeModal);
+  let closeBtn = document.createElement('div');
+  closeBtn.className = 'close_btn';
+  closeBtn.innerHTML = `<span>x</span>`;
 
-    table.append(trHead);
-    table.append(tr);
-    modal.append(table);
-    modal.append(closeBtn);
-    document.body.prepend(modal);
+  closeBtn.addEventListener('click', closeModal);
+
+  table.append(trHead);
+  table.append(tr);
+  modal.append(table);
+  modal.append(closeBtn);
+  document.body.prepend(modal);
 }
 
 async function showPlanet(event) {
-    let top = event.layerY;
-    let planet = await getPlanet(this);
-    console.log(planet);
-    showPlanetModal(planet, top);
-    
+  // let top = event.layerY;
+
+  let planet = await getPlanet(this);
+  showPlanetModal(planet, top);
 }
 
 async function getPeople() {
-    let response = await fetch('https://swapi.dev/api/people/');
-    let people = (await response.json()).results;
-    return people;
+  let response = await fetch('https://swapi.dev/api/people/');
+  let people = (await response.json()).results;
+  return people;
 }
 
 async function getPlanet(td) {
-    let url = td.closest('tr').dataset.planetUrl;
-    let response = await fetch(url);
-    let planet = await response.json();
-    return planet;
+  let url = td.closest('tr').dataset.planetUrl;
+  let response = await fetch(url);
+  let planet = await response.json();
+  return planet;
 }
 
 function createTableHead(userAttr) {
-    let tr = document.createElement('tr');
+  let tr = document.createElement('tr');
 
-    tr.className = 'header_tr';
+  tr.className = 'header_tr';
 
-    userAttr.forEach(element => {
-        let td = document.createElement('td');
-        td.innerHTML = element;
-        tr.append(td);
-    });
+  userAttr.forEach((element) => {
+    let td = document.createElement('td');
+    td.innerHTML = element;
+    tr.append(td);
+  });
 
-    addPlanetTd(tr, null);
+  addPlanetTd(tr, null);
 
-    table.append(tr);
+  table.append(tr);
 
-    let usersBlock = document.querySelector('.users_block');
-    usersBlock.append(table);
+  let usersBlock = document.querySelector('.users_block');
+  usersBlock.append(table);
 }
 
 async function pastePeople(peoplePromise) {
-    let people = await peoplePromise;
-    people.forEach((el) => {
-        let tr = document.createElement('tr');
-        tr.dataset.planetUrl = el.homeworld;
-        userAttr.forEach((item) => {
-            let td = document.createElement('td');
-            td.innerHTML = el[item];
-            tr.append(td);
-        });
+  let people = await peoplePromise;
 
-        addPlanetTd(tr, 'homeworld');
-
-        table.append(tr);
+  people.forEach((el) => {
+    let tr = document.createElement('tr');
+    tr.dataset.planetUrl = el.homeworld;
+    userAttr.forEach((item) => {
+      let td = document.createElement('td');
+      td.innerHTML = el[item];
+      if (isNaN(td.innerText) === false) {
+        td.classList.add('number_td');
+      }
+      tr.append(td);
     });
+
+    addPlanetTd(tr, 'homeworld');
+
+    table.append(tr);
+  });
 }
 
 createTableHead(userAttr);
 pastePeople(getPeople());
-
-
-
-

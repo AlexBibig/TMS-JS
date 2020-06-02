@@ -1,22 +1,59 @@
+@font-face {
+  font-family: 'StarWarsFont';
+  src: url(../fonts/DeathStar-VmWB.ttf);
+}
 body {
   background-image: url(../img/darth_vader.png);
   background-size: 100%;
-  background-position: center;
-}
-.users_block {
-  padding: 20px 40px;
+  background-repeat: no-repeat;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  font-family: 'StarWarsFont';
+  color: gold;
 }
-.users_block table {
+body .users_block {
+  padding: 30px 90px;
+}
+body .users_block table {
   border-collapse: collapse;
 }
-.users_block table td {
-  border: 3px outset grey;
+body .users_block table td {
+  border: 5px outset grey;
   padding: 5px 10px;
-  color: red;
   text-transform: capitalize;
 }
-.users_block table .planet_td {
+body .users_block table .number_td {
+  text-align: center;
+}
+body .users_block table .planet_td {
+  font-family: sans-serif;
+  font-weight: bolder;
+  padding-left: 20px;
+  color: gray;
   border: none;
+  cursor: pointer;
+}
+body .users_block table .planet_td:hover {
+  text-decoration: underline;
+  transition: 1.5s;
+  transform: translateX(20px);
+  color: red;
+}
+body .planet_modal {
+  position: absolute;
+  color: gold;
+  border: 5px solid red;
+  border-radius: 1%;
+  display: flex;
+  top: 145px;
+  right: 180px;
+}
+body .planet_modal td {
+  padding: 20px 30px;
+  text-align: center;
+  border-left: 5px solid red;
+}
+body .planet_modal .close_btn {
+  padding: 5px 10px 0px 0px;
+  cursor: pointer;
 }
