@@ -1,0 +1,22 @@
+.light_slider {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+.light_slider .sliders_window{
+    overflow: hidden;
+}
+.light_slider .sliders_wrapper {
+    display: flex;
+    transition: 0.5s;
+}
+.light_slider .one_slide img {
+    width: 100%;
+}
+.light_slider .nav_block {
+    position: absolute;
+    bottom: -40px;
+}
+.light_slider .nav_block .btn {
+    cursor: pointer;
+}
