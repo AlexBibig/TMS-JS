@@ -1,16 +1,12 @@
 function sumInput() {
-  let arr = [];
+  const arr = [];
   while (true) {
-    let value = prompt('enter number or numbers', 1);
-    if (value === '' || value === ' ' || value === null || !isFinite(value))
-      break;
-    arr.push(+value);
+    let a = prompt('enter number');
+    if (isFinite(a) === false || a === null) break;
+    arr.push(a);
   }
   let sum = 0;
-  for (let i = 0; i < arr.length; i++) {
-    sum += arr[i];
-  }
-  return sum;
+  arr.forEach((el) => (sum += +el));
+  alert(sum);
 }
-
-console.log(sumInput());
+sumInput();
