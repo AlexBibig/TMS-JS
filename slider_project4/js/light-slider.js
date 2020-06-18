@@ -34,6 +34,7 @@ function lightSlider(settings = {}) {
 function addNav(slidesWidth, slides, loop) {
   let navBlock = document.createElement('div');
   navBlock.className = 'nav_block';
+  navBlock.style.width = `${slidesWidth}px`;
 
   let prevBtn = document.createElement('button');
   prevBtn.className = 'btn prev';
@@ -117,9 +118,7 @@ function prevSlide(slidesWidth, slides, loop) {
   if (loop && slidesArr[0].classList.contains('active')) {
     function sdvig() {
       slidersWrapper.style.transition = 'none';
-      slidersWrapper.style.transform = `translateX(${
-        -(slidesArr.length - 2 * slides) * slidesWidth
-      }px)`;
+      slidersWrapper.style.transform = `translateX(${-(slidesArr.length - 2 * slides) * slidesWidth}px)`;
       slidesArr.forEach((el) => el.classList.remove('active'));
       for (let i = slides; i < slides * 2; i++) {
         slidesArr[slidesArr.length - 1 - i].classList.add('active');

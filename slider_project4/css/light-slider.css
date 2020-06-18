@@ -16,8 +16,23 @@
 }
 .light_slider .nav_block {
   position: absolute;
-  bottom: -40px;
+  display: flex;
+  justify-content: space-between;
+  bottom: 40%;
 }
 .light_slider .nav_block .btn {
   cursor: pointer;
+  padding: 10px;
+  background-color: black;
+  opacity: 0.3;
+  color: white;
+  border-radius: 5px;
+  border: none;
+}
+.light_slider .nav_block .btn:active,
+.light_slider .nav_block .btn:focus,
+.light_slider .nav_block .btn:hover {
+  opacity: 0.7;
+  border: none;
+  transition: 1s;
 }

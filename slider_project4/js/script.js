@@ -1,6 +1,6 @@
 let mainSlider = document.querySelector('.main_slider');
 mainSlider.lightSlider({
-  slides: 3,
+  slides: 1,
   slidesWidth: 300,
   slidesHeight: 200,
   nav: true,
