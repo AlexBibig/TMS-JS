@@ -11,6 +11,7 @@ const defaultOptions = {
 };
 
 let shift = 0;
+let slideIndex = 0;
 
 let divs = document.querySelectorAll('div');
 divs.forEach((el) => (el.lightSlider = lightSlider));
@@ -186,6 +187,41 @@ function setStyle(slidesWidth, slides, slidesHeight, loop) {
     el.style.height = `${slidesHeight}px`;
   });
 }
-function addDots() {
-  console.log(1);
+
+function addDots(slidesWidth, slides) {
+  let dotBlock = document.createElement('div');
+  dotBlock.className = 'dot_block';
+
+  let picturesQuantity = document.querySelector('.sliders_wrapper').children.length;
+
+  for (let i = 0; i < Math.floor((picturesQuantity - 0) / slides); i++) {
+    let dots = document.createElement('div');
+    dots.className = 'dot_item';
+    dotBlock.append(dots);
+    dots.addEventListener('click', dotChange);
+  }
+
+  dotBlock.firstChild.classList.add('dot-active');
+
+  mainSlider.append(dotBlock);
 }
+let i = 1;
+
+let dotChange = function (slidesWidth, slides) {
+  let picturesArr = Array.from(document.querySelector('.sliders_wrapper').children);
+  let dotsArr = Array.from(document.querySelector('.dot_block').children);
+
+  dotsArr.forEach((el) => el.classList.remove('dot-active'));
+  this.classList.add('dot-active');
+
+  i += 1;
+  console.log(i);
+
+  // for (let i = 1; i >= 5; i++) {}
+
+  // let slidersWrapper = document.querySelector('.light_slider .sliders_wrapper');
+  // slidersWrapper.style.transform = `translateX(-${shift + slidesWidth * 2}px)`;
+
+  // picturesArr[i].slideIndex = slideIndex + i;
+  // console.log(closest);
+};
