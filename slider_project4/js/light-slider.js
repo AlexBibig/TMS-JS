@@ -6,7 +6,7 @@ const defaultOptions = {
   autoplaySpeed: 2000,
   slides: 2,
   loop: false,
-  dots: true,
+  dots: false,
   pauseOnHover: true,
 };
 
@@ -21,20 +21,21 @@ function lightSlider(settings = {}) {
   const slidesHeight = settings.slidesHeight || defaultOptions.slidesHeight;
   const autoplaySpeed = settings.autoplaySpeed || defaultOptions.autoplaySpeed;
   const nav = settings.nav !== undefined ? settings.nav : defaultOptions.nav;
+  const dots = settings.dots !== undefined ? settings.dots : defaultOptions.dots;
   const loop = settings.loop !== undefined ? settings.loop : defaultOptions.loop;
   const autoplay = settings.autoplay !== undefined ? settings.autoplay : defaultOptions.autoplay;
 
-  transformHtmlSlider(this, slidesWidth, slides, nav, loop);
+  transformHtmlSlider(this, slidesWidth, slides, nav, loop, dots);
   setStyle(slidesWidth, slides, slidesHeight, loop);
 
   if (autoplay) {
-    setInterval(nextSlide, autoplaySpeed, slidesWidth, slides);
+    setInterval(nextSlide, autoplaySpeed, slidesWidth, slides, loop);
   }
 }
 function addNav(slidesWidth, slides, loop) {
   let navBlock = document.createElement('div');
   navBlock.className = 'nav_block';
-  navBlock.style.width = `${slidesWidth}px`;
+  navBlock.style.width = `${slidesWidth * slides}px`;
 
   let prevBtn = document.createElement('button');
   prevBtn.className = 'btn prev';
@@ -118,7 +119,9 @@ function prevSlide(slidesWidth, slides, loop) {
   if (loop && slidesArr[0].classList.contains('active')) {
     function sdvig() {
       slidersWrapper.style.transition = 'none';
-      slidersWrapper.style.transform = `translateX(${-(slidesArr.length - 2 * slides) * slidesWidth}px)`;
+      slidersWrapper.style.transform = `translateX(${
+        -(slidesArr.length - 2 * slides) * slidesWidth
+      }px)`;
       slidesArr.forEach((el) => el.classList.remove('active'));
       for (let i = slides; i < slides * 2; i++) {
         slidesArr[slidesArr.length - 1 - i].classList.add('active');
@@ -130,25 +133,19 @@ function prevSlide(slidesWidth, slides, loop) {
     slidersWrapper.style.transform = `translateX(${shift}px)`;
   }
 }
-function transformHtmlSlider(mainSlider, slidesWidth, slides, nav, loop) {
+function transformHtmlSlider(mainSlider, slidesWidth, slides, nav, loop, dots) {
   mainSlider.classList.add('light_slider');
 
   let slidesHtml = mainSlider.innerHTML;
 
   if (loop) {
     let slidesArr = document.querySelectorAll('.light_slider>div');
-    console.log(slidesHtml);
-    console.log(slidesArr);
     for (let i = 0; i < slides; i++) {
       slidesHtml += slidesArr[i].outerHTML;
     }
-    console.log(slidesHtml);
-    console.log(slidesArr);
     for (let i = 1; i <= slides; i++) {
       slidesHtml = slidesArr[slidesArr.length - i].outerHTML + slidesHtml;
     }
-    console.log(slidesHtml);
-    console.log(slidesArr);
   }
 
   mainSlider.innerHTML = `<div class="sliders_window">
@@ -157,6 +154,9 @@ function transformHtmlSlider(mainSlider, slidesWidth, slides, nav, loop) {
 
   if (nav) {
     addNav(slidesWidth, slides, loop);
+  }
+  if (dots) {
+    addDots(slidesWidth, slides, dots);
   }
 }
 function setStyle(slidesWidth, slides, slidesHeight, loop) {
@@ -185,4 +185,7 @@ function setStyle(slidesWidth, slides, slidesHeight, loop) {
     el.style.width = `${slidesWidth}px`;
     el.style.height = `${slidesHeight}px`;
   });
+}
+function addDots() {
+  console.log(1);
 }

@@ -34,5 +34,6 @@
 .light_slider .nav_block .btn:hover {
   opacity: 0.7;
   border: none;
+  outline: none;
   transition: 1s;
 }
