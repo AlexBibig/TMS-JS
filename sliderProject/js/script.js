@@ -7,4 +7,5 @@ mainSlider.lightSlider({
   autoplay: false,
   autoplaySpeed: 500,
   loop: true,
+  dots: true,
 });
