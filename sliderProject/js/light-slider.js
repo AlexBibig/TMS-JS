@@ -12,6 +12,7 @@ const defaultOptions = {
 
 let shift = 0;
 let slideIndex = 0;
+let dotDefaultNumber = 0;
 
 let divs = document.querySelectorAll('div');
 divs.forEach((el) => (el.lightSlider = lightSlider));
@@ -25,15 +26,33 @@ function lightSlider(settings = {}) {
   const dots = settings.dots !== undefined ? settings.dots : defaultOptions.dots;
   const loop = settings.loop !== undefined ? settings.loop : defaultOptions.loop;
   const autoplay = settings.autoplay !== undefined ? settings.autoplay : defaultOptions.autoplay;
+  const pauseOnHover =
+    settings.pauseOnHover !== undefined ? settings.pauseOnHover : defaultOptions.pauseOnHover;
 
   transformHtmlSlider(this, slidesWidth, slides, nav, loop, dots);
   setStyle(slidesWidth, slides, slidesHeight, loop);
 
   if (autoplay) {
-    setInterval(nextSlide, autoplaySpeed, slidesWidth, slides, loop);
+    let interval = setInterval(nextSlide, autoplaySpeed, slidesWidth, slides, loop);
+    if (pauseOnHover) {
+      let slidesArr = document.querySelectorAll('.light_slider .sliders_wrapper>div');
+      slidesArr.forEach((el) => el.addEventListener('mouseover', pauseAutoplay));
+
+      function restartAutoplay() {
+        interval = setInterval(nextSlide, autoplaySpeed, slidesWidth, slides, loop, dots);
+        slidesArr.forEach((el) => el.addEventListener('mouseover', pauseAutoplay));
+      }
+
+      function pauseAutoplay() {
+        clearInterval(interval);
+        slidesArr.forEach((el) => el.removeEventListener('mouseover', pauseAutoplay));
+        console.log(this);
+        this.addEventListener('mouseout', restartAutoplay);
+      }
+    }
   }
 }
-function addNav(slidesWidth, slides, loop) {
+function addNav(slidesWidth, slides, loop, dots) {
   let navBlock = document.createElement('div');
   navBlock.className = 'nav_block';
   navBlock.style.width = `${slidesWidth * slides}px`;
@@ -41,18 +60,18 @@ function addNav(slidesWidth, slides, loop) {
   let prevBtn = document.createElement('button');
   prevBtn.className = 'btn prev';
   prevBtn.innerHTML = '<';
-  prevBtn.addEventListener('click', () => prevSlide(slidesWidth, slides, loop));
+  prevBtn.addEventListener('click', () => prevSlide(slidesWidth, slides, loop, dots));
 
   let nextBtn = document.createElement('button');
   nextBtn.className = 'btn next';
   nextBtn.innerHTML = '>';
-  nextBtn.addEventListener('click', () => nextSlide(slidesWidth, slides, loop));
+  nextBtn.addEventListener('click', () => nextSlide(slidesWidth, slides, loop, dots));
 
   navBlock.append(prevBtn);
   navBlock.append(nextBtn);
   mainSlider.append(navBlock);
 }
-function nextSlide(slidesWidth, slides, loop) {
+function nextSlide(slidesWidth, slides, loop, dots) {
   let slidersWrapper = document.querySelector('.light_slider .sliders_wrapper');
   slidersWrapper.style.transition = '0.5s';
   let slidersWrapperWidth = slidersWrapper.offsetWidth;
@@ -76,6 +95,9 @@ function nextSlide(slidesWidth, slides, loop) {
 
     slidersWrapper.style.transform = `translateX(${shift}px)`;
   }
+  if (dots) {
+    dotChangeNext(slides);
+  }
 
   if (loop && slidesArr[slidesArr.length - 1].classList.contains('active')) {
     function sdvig() {
@@ -91,8 +113,9 @@ function nextSlide(slidesWidth, slides, loop) {
   } else {
     slidersWrapper.style.transform = `translateX(${shift}px)`;
   }
+  // console.log(slides);
 }
-function prevSlide(slidesWidth, slides, loop) {
+function prevSlide(slidesWidth, slides, loop, dots) {
   let slidersWrapper = document.querySelector('.light_slider .sliders_wrapper');
   slidersWrapper.style.transition = '0.5s';
   let slidesArr = slidersWrapper.querySelectorAll('.one_slide');
@@ -115,6 +138,9 @@ function prevSlide(slidesWidth, slides, loop) {
   }
   if (loop && slidesArr[0].classList.contains('active')) {
     slidersWrapper.style.transform = `translateX(${shift}px)`;
+  }
+  if (dots) {
+    dotChangePrev(slides);
   }
 
   if (loop && slidesArr[0].classList.contains('active')) {
@@ -154,7 +180,7 @@ function transformHtmlSlider(mainSlider, slidesWidth, slides, nav, loop, dots) {
     </div>`;
 
   if (nav) {
-    addNav(slidesWidth, slides, loop);
+    addNav(slidesWidth, slides, loop, dots);
   }
   if (dots) {
     addDots(slidesWidth, slides, dots);
@@ -192,36 +218,43 @@ function addDots(slidesWidth, slides) {
   let dotBlock = document.createElement('div');
   dotBlock.className = 'dot_block';
 
-  let picturesQuantity = document.querySelector('.sliders_wrapper').children.length;
+  let picturesArr = document.querySelector('.sliders_wrapper').children;
 
-  for (let i = 0; i < Math.floor((picturesQuantity - 0) / slides); i++) {
+  for (let i = 0; i < Math.floor((picturesArr.length - 2) / slides); i++) {
     let dots = document.createElement('div');
     dots.className = 'dot_item';
     dotBlock.append(dots);
-    dots.addEventListener('click', dotChange);
   }
 
   dotBlock.firstChild.classList.add('dot-active');
 
   mainSlider.append(dotBlock);
 }
-let i = 1;
-
-let dotChange = function (slidesWidth, slides) {
-  let picturesArr = Array.from(document.querySelector('.sliders_wrapper').children);
+function dotChangeNext(slides) {
   let dotsArr = Array.from(document.querySelector('.dot_block').children);
-
   dotsArr.forEach((el) => el.classList.remove('dot-active'));
-  this.classList.add('dot-active');
 
-  i += 1;
-  console.log(i);
+  dotDefaultNumber++;
+  dotsArr[dotDefaultNumber].classList.add('dot-active');
+  let dotsQuantity = Math.round(dotsArr.length / slides);
 
-  // for (let i = 1; i >= 5; i++) {}
+  if (dotDefaultNumber >= dotsQuantity) {
+    dotDefaultNumber = -1;
+  } else if (dotDefaultNumber >= dotsQuantity - 1 && slides === 1) {
+    dotDefaultNumber = -1;
+  }
+}
+function dotChangePrev(slides) {
+  let dotsArr = Array.from(document.querySelector('.dot_block').children);
+  dotsArr.forEach((el) => el.classList.remove('dot-active'));
 
-  // let slidersWrapper = document.querySelector('.light_slider .sliders_wrapper');
-  // slidersWrapper.style.transform = `translateX(-${shift + slidesWidth * 2}px)`;
+  dotDefaultNumber - 1;
+  dotsArr[dotDefaultNumber].classList.add('dot-active');
+  let dotsQuantity = Math.round(dotsArr.length / slides);
 
-  // picturesArr[i].slideIndex = slideIndex + i;
-  // console.log(closest);
-};
+  if (dotDefaultNumber >= abc) {
+    dotDefaultNumber = dotsArr.length;
+  } else if (dotDefaultNumber >= dotsQuantity - 1 && slides === 1) {
+    dotDefaultNumber = dotsArr.length;
+  }
+}

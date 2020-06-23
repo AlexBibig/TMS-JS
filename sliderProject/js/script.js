@@ -5,7 +5,8 @@ mainSlider.lightSlider({
   slidesHeight: 200,
   nav: true,
   autoplay: false,
-  autoplaySpeed: 500,
+  autoplaySpeed: 1000,
   loop: true,
   dots: true,
+  pauseOnHover: true,
 });
