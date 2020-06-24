@@ -33,20 +33,25 @@ function lightSlider(settings = {}) {
   setStyle(slidesWidth, slides, slidesHeight, loop);
 
   if (autoplay) {
-    let interval = setInterval(nextSlide, autoplaySpeed, slidesWidth, slides, loop);
+    let turnInterval = setInterval(nextSlide, autoplaySpeed, slidesWidth, slides, loop);
     if (pauseOnHover) {
       let slidesArr = document.querySelectorAll('.light_slider .sliders_wrapper>div');
-      slidesArr.forEach((el) => el.addEventListener('mouseover', pauseAutoplay));
+      slidesArr.forEach((el) => {
+        el.addEventListener('mouseover', pauseAutoplay);
+      });
 
       function restartAutoplay() {
-        interval = setInterval(nextSlide, autoplaySpeed, slidesWidth, slides, loop, dots);
-        slidesArr.forEach((el) => el.addEventListener('mouseover', pauseAutoplay));
+        turnInterval = setInterval(nextSlide, autoplaySpeed, slidesWidth, slides, loop, dots);
+        slidesArr.forEach((el) => {
+          el.addEventListener('mouseover', pauseAutoplay);
+        });
       }
 
       function pauseAutoplay() {
-        clearInterval(interval);
-        slidesArr.forEach((el) => el.removeEventListener('mouseover', pauseAutoplay));
-        console.log(this);
+        clearInterval(turnInterval);
+        slidesArr.forEach((el) => {
+          el.removeEventListener('mouseover', pauseAutoplay);
+        });
         this.addEventListener('mouseout', restartAutoplay);
       }
     }
@@ -243,18 +248,14 @@ function dotChangeNext(slides) {
   } else if (dotDefaultNumber >= dotsQuantity - 1 && slides === 1) {
     dotDefaultNumber = -1;
   }
+  console.log(dotDefaultNumber);
 }
 function dotChangePrev(slides) {
   let dotsArr = Array.from(document.querySelector('.dot_block').children);
   dotsArr.forEach((el) => el.classList.remove('dot-active'));
 
-  dotDefaultNumber - 1;
-  dotsArr[dotDefaultNumber].classList.add('dot-active');
-  let dotsQuantity = Math.round(dotsArr.length / slides);
+  dotDefaultNumber -= 1;
+  console.log(dotsArr);
 
-  if (dotDefaultNumber >= abc) {
-    dotDefaultNumber = dotsArr.length;
-  } else if (dotDefaultNumber >= dotsQuantity - 1 && slides === 1) {
-    dotDefaultNumber = dotsArr.length;
-  }
+  dotsArr[dotDefaultNumber].classList.add('dot-active');
 }
