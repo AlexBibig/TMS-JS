@@ -4,7 +4,7 @@ const defaultOptions = {
   nav: true,
   autoplay: false,
   autoplaySpeed: 2000,
-  slides: 2,
+  slides: 1,
   loop: false,
   dots: false,
   pauseOnHover: true,
@@ -26,8 +26,7 @@ function lightSlider(settings = {}) {
   const dots = settings.dots !== undefined ? settings.dots : defaultOptions.dots;
   const loop = settings.loop !== undefined ? settings.loop : defaultOptions.loop;
   const autoplay = settings.autoplay !== undefined ? settings.autoplay : defaultOptions.autoplay;
-  const pauseOnHover =
-    settings.pauseOnHover !== undefined ? settings.pauseOnHover : defaultOptions.pauseOnHover;
+  const pauseOnHover = settings.pauseOnHover !== undefined ? settings.pauseOnHover : defaultOptions.pauseOnHover;
 
   transformHtmlSlider(this, slidesWidth, slides, nav, loop, dots);
   setStyle(slidesWidth, slides, slidesHeight, loop);
@@ -40,19 +39,19 @@ function lightSlider(settings = {}) {
         el.addEventListener('mouseover', pauseAutoplay);
       });
 
-      function restartAutoplay() {
-        turnInterval = setInterval(nextSlide, autoplaySpeed, slidesWidth, slides, loop, dots);
-        slidesArr.forEach((el) => {
-          el.addEventListener('mouseover', pauseAutoplay);
-        });
-      }
-
       function pauseAutoplay() {
         clearInterval(turnInterval);
         slidesArr.forEach((el) => {
           el.removeEventListener('mouseover', pauseAutoplay);
         });
         this.addEventListener('mouseout', restartAutoplay);
+      }
+
+      function restartAutoplay() {
+        turnInterval = setInterval(nextSlide, autoplaySpeed, slidesWidth, slides, loop, dots);
+        slidesArr.forEach((el) => {
+          el.addEventListener('mouseover', pauseAutoplay);
+        });
       }
     }
   }
@@ -151,9 +150,7 @@ function prevSlide(slidesWidth, slides, loop, dots) {
   if (loop && slidesArr[0].classList.contains('active')) {
     function sdvig() {
       slidersWrapper.style.transition = 'none';
-      slidersWrapper.style.transform = `translateX(${
-        -(slidesArr.length - 2 * slides) * slidesWidth
-      }px)`;
+      slidersWrapper.style.transform = `translateX(${-(slidesArr.length - 2 * slides) * slidesWidth}px)`;
       slidesArr.forEach((el) => el.classList.remove('active'));
       for (let i = slides; i < slides * 2; i++) {
         slidesArr[slidesArr.length - 1 - i].classList.add('active');
@@ -252,10 +249,14 @@ function dotChangeNext(slides) {
 }
 function dotChangePrev(slides) {
   let dotsArr = Array.from(document.querySelector('.dot_block').children);
+  let dotsQuantity = Math.round(dotsArr.length / slides);
+
   dotsArr.forEach((el) => el.classList.remove('dot-active'));
 
   dotDefaultNumber -= 1;
-  console.log(dotsArr);
-
+  if (dotDefaultNumber === -1) {
+    dotDefaultNumber = dotsQuantity - 1;
+  }
   dotsArr[dotDefaultNumber].classList.add('dot-active');
+  console.log(dotDefaultNumber);
 }
