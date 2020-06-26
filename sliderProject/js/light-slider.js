@@ -55,6 +55,14 @@ function lightSlider(settings = {}) {
       }
     }
   }
+  if (dots) {
+    let picturesArr = Array.from(document.querySelector('.sliders_wrapper').children);
+    console.log(picturesArr);
+
+    picturesArr.forEach((el, index) => {
+      el.slideIndex = index;
+    });
+  }
 }
 function addNav(slidesWidth, slides, loop, dots) {
   let navBlock = document.createElement('div');
@@ -232,31 +240,65 @@ function addDots(slidesWidth, slides) {
 
   mainSlider.append(dotBlock);
 }
+
+// function dotChangeNext(slides) {
+//   let dotsArr = Array.from(document.querySelector('.dot_block').children);
+//   dotsArr.forEach((el) => el.classList.remove('dot-active'));
+
+//   dotDefaultNumber++;
+//   dotsArr[dotDefaultNumber].classList.add('dot-active');
+//   let dotsQuantity = Math.round(dotsArr.length / slides);
+
+//   if (dotDefaultNumber >= dotsQuantity) {
+//     dotDefaultNumber = -1;
+//   } else if (dotDefaultNumber >= dotsQuantity - 1 && slides === 1) {
+//     dotDefaultNumber = -1;
+//   }
+//   console.log(dotDefaultNumber);
+// }
+// function dotChangePrev(slides) {
+//   let dotsArr = Array.from(document.querySelector('.dot_block').children);
+//   let dotsQuantity = Math.round(dotsArr.length / slides);
+
+//   dotsArr.forEach((el) => el.classList.remove('dot-active'));
+
+//   dotDefaultNumber--;
+//   if (dotDefaultNumber < 0 && slides === 1) {
+//     dotDefaultNumber = dotsQuantity - 1;
+//   } else if (slides >= 2 && dotDefaultNumber < 0) {
+//     dotDefaultNumber = dotsQuantity;
+//   }
+//   dotsArr[dotDefaultNumber].classList.add('dot-active');
+//   let picturesArr = Array.from(document.querySelector('.sliders_wrapper').children);
+//   console.log(picturesArr[0].slideIndex);
+//   picturesArr.forEach((el) => {
+//     console.log(el.slideIndex);
+//   });
+// }
+
 function dotChangeNext(slides) {
+  let picturesArr = Array.from(document.querySelector('.sliders_wrapper').children);
   let dotsArr = Array.from(document.querySelector('.dot_block').children);
   dotsArr.forEach((el) => el.classList.remove('dot-active'));
 
-  dotDefaultNumber++;
-  dotsArr[dotDefaultNumber].classList.add('dot-active');
-  let dotsQuantity = Math.round(dotsArr.length / slides);
-
-  if (dotDefaultNumber >= dotsQuantity) {
-    dotDefaultNumber = -1;
-  } else if (dotDefaultNumber >= dotsQuantity - 1 && slides === 1) {
-    dotDefaultNumber = -1;
-  }
   console.log(dotDefaultNumber);
 }
+
 function dotChangePrev(slides) {
   let dotsArr = Array.from(document.querySelector('.dot_block').children);
   let dotsQuantity = Math.round(dotsArr.length / slides);
 
   dotsArr.forEach((el) => el.classList.remove('dot-active'));
 
-  dotDefaultNumber -= 1;
-  if (dotDefaultNumber === -1) {
+  dotDefaultNumber--;
+  if (dotDefaultNumber < 0 && slides === 1) {
     dotDefaultNumber = dotsQuantity - 1;
+  } else if (slides >= 2 && dotDefaultNumber < 0) {
+    dotDefaultNumber = dotsQuantity;
   }
   dotsArr[dotDefaultNumber].classList.add('dot-active');
-  console.log(dotDefaultNumber);
+  console.log(picturesArr[0].slideIndex);
+  picturesArr.forEach((el) => {
+    console.log(el.slideIndex);
+  });
 }
