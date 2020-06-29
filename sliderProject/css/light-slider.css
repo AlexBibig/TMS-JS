@@ -10,6 +10,9 @@
   display: flex;
   transition: 0.5s;
 }
+.light_slider .one_slide {
+  padding: 0 5px;
+}
 .light_slider .one_slide img {
   width: 100%;
   height: 100%;
@@ -41,6 +44,7 @@
   position: absolute;
   display: flex;
   bottom: -35px;
+  cursor: pointer;
 }
 .light_slider .dot_block .dot_item {
   width: 10px;

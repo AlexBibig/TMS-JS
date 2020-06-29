@@ -26,7 +26,8 @@ function lightSlider(settings = {}) {
   const dots = settings.dots !== undefined ? settings.dots : defaultOptions.dots;
   const loop = settings.loop !== undefined ? settings.loop : defaultOptions.loop;
   const autoplay = settings.autoplay !== undefined ? settings.autoplay : defaultOptions.autoplay;
-  const pauseOnHover = settings.pauseOnHover !== undefined ? settings.pauseOnHover : defaultOptions.pauseOnHover;
+  const pauseOnHover =
+    settings.pauseOnHover !== undefined ? settings.pauseOnHover : defaultOptions.pauseOnHover;
 
   transformHtmlSlider(this, slidesWidth, slides, nav, loop, dots);
   setStyle(slidesWidth, slides, slidesHeight, loop);
@@ -55,19 +56,11 @@ function lightSlider(settings = {}) {
       }
     }
   }
-  if (dots) {
-    let picturesArr = Array.from(document.querySelector('.sliders_wrapper').children);
-    console.log(picturesArr);
-
-    picturesArr.forEach((el, index) => {
-      el.slideIndex = index;
-    });
-  }
 }
 function addNav(slidesWidth, slides, loop, dots) {
   let navBlock = document.createElement('div');
   navBlock.className = 'nav_block';
-  navBlock.style.width = `${slidesWidth * slides}px`;
+  navBlock.style.width = `${slidesWidth * slides - 10}px`;
 
   let prevBtn = document.createElement('button');
   prevBtn.className = 'btn prev';
@@ -125,7 +118,6 @@ function nextSlide(slidesWidth, slides, loop, dots) {
   } else {
     slidersWrapper.style.transform = `translateX(${shift}px)`;
   }
-  // console.log(slides);
 }
 function prevSlide(slidesWidth, slides, loop, dots) {
   let slidersWrapper = document.querySelector('.light_slider .sliders_wrapper');
@@ -158,7 +150,9 @@ function prevSlide(slidesWidth, slides, loop, dots) {
   if (loop && slidesArr[0].classList.contains('active')) {
     function sdvig() {
       slidersWrapper.style.transition = 'none';
-      slidersWrapper.style.transform = `translateX(${-(slidesArr.length - 2 * slides) * slidesWidth}px)`;
+      slidersWrapper.style.transform = `translateX(${
+        -(slidesArr.length - 2 * slides) * slidesWidth
+      }px)`;
       slidesArr.forEach((el) => el.classList.remove('active'));
       for (let i = slides; i < slides * 2; i++) {
         slidesArr[slidesArr.length - 1 - i].classList.add('active');
@@ -233,7 +227,22 @@ function addDots(slidesWidth, slides) {
   for (let i = 0; i < Math.floor((picturesArr.length - 2) / slides); i++) {
     let dots = document.createElement('div');
     dots.className = 'dot_item';
+    picturesArr[i].slideIndex = slideIndex + i;
     dotBlock.append(dots);
+
+    dots.addEventListener('click', function dotActive() {
+      let dotsArr = Array.from(document.querySelector('.dot_block').children);
+      for (let i = 0; i < dotsArr.length; i++) {
+        dotsArr[i].classList.remove('dot-active');
+      }
+      dotsArr[i].classList.add('dot-active');
+      dotDefaultNumber = i;
+
+      let slidersWrapper = document.querySelector('.light_slider .sliders_wrapper');
+      slidersWrapper.style.transform = `translateX(-${
+        shift + slidesWidth * (i + picturesArr.length / 2)
+      }px)`;
+    });
   }
 
   dotBlock.firstChild.classList.add('dot-active');
@@ -241,64 +250,26 @@ function addDots(slidesWidth, slides) {
   mainSlider.append(dotBlock);
 }
 
-// function dotChangeNext(slides) {
-//   let dotsArr = Array.from(document.querySelector('.dot_block').children);
-//   dotsArr.forEach((el) => el.classList.remove('dot-active'));
-
-//   dotDefaultNumber++;
-//   dotsArr[dotDefaultNumber].classList.add('dot-active');
-//   let dotsQuantity = Math.round(dotsArr.length / slides);
-
-//   if (dotDefaultNumber >= dotsQuantity) {
-//     dotDefaultNumber = -1;
-//   } else if (dotDefaultNumber >= dotsQuantity - 1 && slides === 1) {
-//     dotDefaultNumber = -1;
-//   }
-//   console.log(dotDefaultNumber);
-// }
-// function dotChangePrev(slides) {
-//   let dotsArr = Array.from(document.querySelector('.dot_block').children);
-//   let dotsQuantity = Math.round(dotsArr.length / slides);
-
-//   dotsArr.forEach((el) => el.classList.remove('dot-active'));
-
-//   dotDefaultNumber--;
-//   if (dotDefaultNumber < 0 && slides === 1) {
-//     dotDefaultNumber = dotsQuantity - 1;
-//   } else if (slides >= 2 && dotDefaultNumber < 0) {
-//     dotDefaultNumber = dotsQuantity;
-//   }
-//   dotsArr[dotDefaultNumber].classList.add('dot-active');
-//   let picturesArr = Array.from(document.querySelector('.sliders_wrapper').children);
-//   console.log(picturesArr[0].slideIndex);
-//   picturesArr.forEach((el) => {
-//     console.log(el.slideIndex);
-//   });
-// }
-
 function dotChangeNext(slides) {
-  let picturesArr = Array.from(document.querySelector('.sliders_wrapper').children);
   let dotsArr = Array.from(document.querySelector('.dot_block').children);
   dotsArr.forEach((el) => el.classList.remove('dot-active'));
 
-  console.log(dotDefaultNumber);
+  if (dotDefaultNumber >= dotsArr.length - 1) {
+    dotDefaultNumber = 0;
+  } else {
+    dotDefaultNumber++;
+  }
+  dotsArr[dotDefaultNumber].classList.add('dot-active');
 }
 
 function dotChangePrev(slides) {
   let dotsArr = Array.from(document.querySelector('.dot_block').children);
-  let dotsQuantity = Math.round(dotsArr.length / slides);
-
   dotsArr.forEach((el) => el.classList.remove('dot-active'));
 
-  dotDefaultNumber--;
-  if (dotDefaultNumber < 0 && slides === 1) {
-    dotDefaultNumber = dotsQuantity - 1;
-  } else if (slides >= 2 && dotDefaultNumber < 0) {
-    dotDefaultNumber = dotsQuantity;
+  if (dotDefaultNumber <= 0) {
+    dotDefaultNumber = dotsArr.length - 1;
+  } else {
+    --dotDefaultNumber;
   }
   dotsArr[dotDefaultNumber].classList.add('dot-active');
-  console.log(picturesArr[0].slideIndex);
-  picturesArr.forEach((el) => {
-    console.log(el.slideIndex);
-  });
 }
