@@ -5,7 +5,7 @@ const defaultOptions = {
   autoplay: false,
   autoplaySpeed: 2000,
   slides: 1,
-  loop: false,
+  loop: true,
   dots: false,
   pauseOnHover: true,
 };
@@ -26,8 +26,7 @@ function lightSlider(settings = {}) {
   const dots = settings.dots !== undefined ? settings.dots : defaultOptions.dots;
   const loop = settings.loop !== undefined ? settings.loop : defaultOptions.loop;
   const autoplay = settings.autoplay !== undefined ? settings.autoplay : defaultOptions.autoplay;
-  const pauseOnHover =
-    settings.pauseOnHover !== undefined ? settings.pauseOnHover : defaultOptions.pauseOnHover;
+  const pauseOnHover = settings.pauseOnHover !== undefined ? settings.pauseOnHover : defaultOptions.pauseOnHover;
 
   transformHtmlSlider(this, slidesWidth, slides, nav, loop, dots);
   setStyle(slidesWidth, slides, slidesHeight, loop);
@@ -150,9 +149,7 @@ function prevSlide(slidesWidth, slides, loop, dots) {
   if (loop && slidesArr[0].classList.contains('active')) {
     function sdvig() {
       slidersWrapper.style.transition = 'none';
-      slidersWrapper.style.transform = `translateX(${
-        -(slidesArr.length - 2 * slides) * slidesWidth
-      }px)`;
+      slidersWrapper.style.transform = `translateX(${-(slidesArr.length - 2 * slides) * slidesWidth}px)`;
       slidesArr.forEach((el) => el.classList.remove('active'));
       for (let i = slides; i < slides * 2; i++) {
         slidesArr[slidesArr.length - 1 - i].classList.add('active');
@@ -239,9 +236,7 @@ function addDots(slidesWidth, slides) {
       dotDefaultNumber = i;
 
       let slidersWrapper = document.querySelector('.light_slider .sliders_wrapper');
-      slidersWrapper.style.transform = `translateX(-${
-        shift + slidesWidth * (i + picturesArr.length / 2)
-      }px)`;
+      slidersWrapper.style.transform = `translateX(-${shift + slidesWidth * (i + picturesArr.length / 2)}px)`;
     });
   }
 
