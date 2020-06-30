@@ -8,7 +8,7 @@ https://github.com/AlexBibig/TMS-JS.git - clone this repository and add files wi
 
 # Usage
 
-1. Create a <div></div> with your own class name.
+1. Create a div with your own class name.
 
 ```html
 <div class="main_slider"></div>
@@ -24,7 +24,7 @@ https://github.com/AlexBibig/TMS-JS.git - clone this repository and add files wi
 </div>
 ```
 
-3. In your main js-file (for example, script.js) add to your div method ".lightSlider()", like on example.
+3. In your main js-file (for example, script.js) add to your div method "lightSlider()", like on example.
 
 ```js
 let mainSlider = document.querySelector('.main_slider');
@@ -43,4 +43,19 @@ mainSlider.lightSlider();
 8. dots: boolean, default value = false, //navigation dots under the slider
 9. pauseOnHover: boolean, default value = true, //pause autoplay when hover
 
-For changing default options
+For changing default options you must transfer your own parameters to method "lightSlider()", like on example.
+
+```js
+let mainSlider = document.querySelector('.main_slider');
+mainSlider.lightSlider({
+  slides: 2,
+  slidesWidth: 400,
+  slidesHeight: 300,
+  nav: false,
+  autoplay: true,
+  autoplaySpeed: 1000,
+  loop: false,
+  dots: false,
+  pauseOnHover: false,
+});
+```
