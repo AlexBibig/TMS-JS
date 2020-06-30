@@ -33,6 +33,8 @@ mainSlider.lightSlider();
 
 # Options
 
+List of default options:
+
 1. slidesWidth: number, default value = 300, //one image width in px
 2. slidesHeight: number, default value = 200, //one image height in px
 3. nav: boolean, default value = true, //navigation buttons for changing images (previous and next)
