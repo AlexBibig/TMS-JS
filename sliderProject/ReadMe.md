@@ -1,6 +1,6 @@
 # Slider Project on pure JS
 
-[Click for demo](https://raw.githack.com/AlexBibig/TMS-JS/master/sliderProject/index.html)
+[Click for demo](https://rawcdn.githack.com/AlexBibig/TMS-JS/62a8f6b5d1ee1dc8afcbd11f2d6bd2ae7ba0f0a9/sliderProject/index.html)
 
 # Installation
 
