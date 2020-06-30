@@ -100,7 +100,7 @@ function nextSlide(slidesWidth, slides, loop, dots) {
     slidersWrapper.style.transform = `translateX(${shift}px)`;
   }
   if (dots) {
-    dotChangeNext(slides);
+    dotChangeNext(slides, loop);
   }
 
   if (loop && slidesArr[slidesArr.length - 1].classList.contains('active')) {
@@ -184,7 +184,7 @@ function transformHtmlSlider(mainSlider, slidesWidth, slides, nav, loop, dots) {
     addNav(slidesWidth, slides, loop, dots);
   }
   if (dots) {
-    addDots(slidesWidth, slides, dots);
+    addDots(slidesWidth, slides, loop, dots);
   }
 }
 function setStyle(slidesWidth, slides, slidesHeight, loop) {
@@ -215,29 +215,35 @@ function setStyle(slidesWidth, slides, slidesHeight, loop) {
   });
 }
 
-function addDots(slidesWidth, slides) {
+function addDots(slidesWidth, slides, loop) {
   let dotBlock = document.createElement('div');
   dotBlock.className = 'dot_block';
 
   let picturesArr = document.querySelector('.sliders_wrapper').children;
+  let picturesQuantity = 0;
+  if (loop) {
+    picturesQuantity = (picturesArr.length - 2) / slides;
+  } else {
+    picturesQuantity = picturesArr.length / slides;
+  }
 
-  for (let i = 0; i < Math.floor((picturesArr.length - 2) / slides); i++) {
+  for (let i = 0; i < Math.floor(picturesQuantity); i++) {
     let dots = document.createElement('div');
     dots.className = 'dot_item';
     picturesArr[i].slideIndex = slideIndex + i;
     dotBlock.append(dots);
 
-    dots.addEventListener('click', function dotActive() {
-      let dotsArr = Array.from(document.querySelector('.dot_block').children);
-      for (let i = 0; i < dotsArr.length; i++) {
-        dotsArr[i].classList.remove('dot-active');
-      }
-      dotsArr[i].classList.add('dot-active');
-      dotDefaultNumber = i;
+    // dots.addEventListener('click', function dotActive() {
+    //   let dotsArr = Array.from(document.querySelector('.dot_block').children);
+    //   for (let i = 0; i < dotsArr.length; i++) {
+    //     dotsArr[i].classList.remove('dot-active');
+    //   }
+    //   dotsArr[i].classList.add('dot-active');
+    //   dotDefaultNumber = i;
 
-      let slidersWrapper = document.querySelector('.light_slider .sliders_wrapper');
-      slidersWrapper.style.transform = `translateX(-${shift + slidesWidth * (i + picturesArr.length / 2)}px)`;
-    });
+    //   let slidersWrapper = document.querySelector('.light_slider .sliders_wrapper');
+    //   slidersWrapper.style.transform = `translateX(-${shift + slidesWidth * (i + 2)}px)`;
+    // });
   }
 
   dotBlock.firstChild.classList.add('dot-active');
@@ -245,7 +251,7 @@ function addDots(slidesWidth, slides) {
   mainSlider.append(dotBlock);
 }
 
-function dotChangeNext(slides) {
+function dotChangeNext() {
   let dotsArr = Array.from(document.querySelector('.dot_block').children);
   dotsArr.forEach((el) => el.classList.remove('dot-active'));
 
@@ -254,10 +260,11 @@ function dotChangeNext(slides) {
   } else {
     dotDefaultNumber++;
   }
+
   dotsArr[dotDefaultNumber].classList.add('dot-active');
 }
 
-function dotChangePrev(slides) {
+function dotChangePrev() {
   let dotsArr = Array.from(document.querySelector('.dot_block').children);
   dotsArr.forEach((el) => el.classList.remove('dot-active'));
 
