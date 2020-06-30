@@ -4,14 +4,14 @@
 
 # Installation
 
-git clone https://github.com/AlexBibig/TMS-JS/sliderProject.git - clone this repository
+https://github.com/AlexBibig/TMS-JS/sliderProject.git - clone this repository and add files with name "light-slider" to your project
 
 # Usage
 
 Default:
-<div class="main_slider">
-<div><img src="./img/dog1.png" alt="dog1" /></div>
-<div><img src="./img/dog2.jpg" alt="dog2" /></div>
-<div><img src="./img/dog3.jpg" alt="dog3" /></div>
-<div><img src="./img/dog4.jpg" alt="dog4" /></div>
-</div>
+
+Default:
+
+```html
+<div class="myNameSlider"></div>
+```
