@@ -1,1 +1,2 @@
-All homeworks on JS from TMS-courses
+# TMS-JS
+TeachMeSkills JavaScript-block
