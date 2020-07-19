@@ -44,7 +44,7 @@
   position: absolute;
   display: flex;
   bottom: -35px;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 .light_slider .dot_block .dot_item {
   width: 10px;
